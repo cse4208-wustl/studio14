@@ -40,7 +40,7 @@ Record your answers in `ANSWERS.md` as you work. Include the names of everyone w
 
    Compile and run your program. In your answers, show the output that your program produced.
 
-3. Add a public const member `operator<` to your class that takes a reference to a const object of the class type and returns `true` if and only if the object's string member variable is less than the string member variable of the object that was passed to it.
+3. Add a public **const** member `operator<` to your class that takes a reference to a const object of the class type and returns `true` if and only if the object's string member variable is less than the string member variable of the object that was passed to it.
 
    In `main`, use that operator to determine which of the two objects has the lesser string, and output the result of that comparison to the standard output stream. Compile and run your program. In your answers, show the output it produced.
 
