@@ -76,40 +76,37 @@ Record your answers in `ANSWERS.md` as you work. Include the names of everyone w
    3. takes a reference to a non-const `std::ostream` and a reference to a const object of your class type
    4. inserts the object into the `std::ostream`, and also inserts a short C-style string to indicate that printing happened from the non-template function
 
-   **Before compiling**, predict in your answers which function (the function template or the non-template function) each call in `main` that prints an object of the class type will use. Then compile and run your program, and show the output it produced.
+   **Before compiling**, predict in your answers which function (the function template or the non-template function) each call in `main` that prints an object of the class type will use. 
+   
+   Then compile and run your program. In your answers, show the output it produced, and explain which function was called and why the compiler chose that version of the function.
 
-   In your answers, explain why the non-template function was called, even though the function template could also be instantiated to match those calls exactly.
+   Finally, change one of those calls so that it provides an explicit template argument by putting your class name in angle brackets after the function name. Compile and run your program. In your answers, show the output, and explain which functon was called and why.
 
-   Finally, change one of those calls so that it provides an explicit template argument (for example, `fn<ClassName>(std::cout, obj)`, where `fn` is the name of your function template and `ClassName` is the name of your class). Compile and run your program, show the output, and explain why that call now uses the function template.
+8. Add a second function template that handles pointers, similar to the pointer version of `debug_rep` in section 16.3.
 
-8. In this exercise you will overload your function template with a second, more specialized function template, as in the `debug_rep` examples in the assigned reading for this module (section 16.3). In the steps below, `fn` stands for the name of your function template, `ClassName` for the name of your class, and `obj` for one of your objects of the class type.
+   In your template header and source files, declare and define another function template with the same name as the one from exercise 6. It should have a `void` return type and take a reference to a non-const `std::ostream` and a pointer to the parameterized type (`T*`). It should insert the pointer's value and a short C-style string saying the pointer template was used. Then, if the pointer is not null, it should call the function again to print the object the pointer points to; otherwise, it should print that the pointer is null. Declare both function templates in the template header file before defining either one.
 
-   In your template header file, add a declaration of a second function template named `fn` with a single type parameter `T` that has a `void` return type and takes a reference to a non-const `std::ostream` and a parameter of type `T*`. Make sure both function templates are declared in the template header file before either one is defined. In your template source file, define it so that it:
+   In `main`, call the function once with each of these arguments:
 
-   1. inserts the pointer's own value into the `std::ostream`, along with a short C-style string indicating that printing happened from the pointer template
-   2. if the pointer is not null, calls `fn` to print the object it points to; otherwise inserts a message indicating a null pointer
+   1. one of your objects
+   2. the address of that object
+   3. a pointer to const that points to that object
+   4. a `std::string` variable
+   5. the string literal `"hello"`
+   6. a null pointer to your class type
 
-   In `main`, declare a `const` pointer to one of your objects (of type `const ClassName*`), a null pointer of type `ClassName*`, and a `std::string` variable `str`. **Before compiling**, predict in your answers which function (the `const T&` template, the `T*` template, or your non-template function from the previous exercise) each of the following calls will use, and what `T` will be deduced as for each template call. For calls that use the `T*` template, also predict which function prints the object that the pointer points to. Briefly explain why, using the function-matching rules from section 16.3:
-
-   1. `fn(std::cout, obj);`
-   2. `fn(std::cout, &obj);`
-   3. `fn(std::cout, cp);`, where `cp` is your `const ClassName*`
-   4. `fn(std::cout, str);`
-   5. `fn(std::cout, "hello");`
-   6. `fn(std::cout, np);`, where `np` is your null `ClassName*`
-
-   Add those calls to `main`, then compile and run your program. In your answers, show the output, and for each call say whether your prediction was correct. For any call you predicted incorrectly, explain what actually determined the choice. In particular, explain the output of call 5: why is the pointer's value not printed as an address, and why does only one character of the string get printed after it?
+   **Before compiling**, predict which version of the function each call will use (the `const T&` template, the `T*` template, or the non-template function from exercise 7) and briefly explain why. Then compile and run your program, show the output, and say which predictions were wrong and why. In particular, explain the output of call 5.
 
 9. In this exercise you will add non-template overloads for strings and see how a missing declaration can silently change which function gets called.
 
-   In the source file for your `main` function, above `main` and outside any namespace (do not declare these functions in a header file), define two non-template functions named `fn`, each with a `void` return type and taking a reference to a non-const `std::ostream` as the first parameter. **Define them in this order:**
+   In the source file for your `main` function, above `main` and outside any namespace (do not declare these functions in a header file), define two non-template functions with the same name as your function template, each with a `void` return type and taking a reference to a non-const `std::ostream` as the first parameter. **Define them in this order:**
 
-   1. a function whose second parameter is a `const char*`, which inserts a short C-style string indicating that printing happened from the `const char*` non-template function, and then calls `fn` on a `std::string` constructed from the pointer
+   1. a function whose second parameter is a `const char*`, which inserts a short C-style string indicating that printing happened from the `const char*` non-template function, and then calls the function on a `std::string` constructed from the pointer
    2. a function whose second parameter is a reference to a const `std::string`, which inserts the string surrounded by double quotes, along with a short C-style string indicating that printing happened from the `std::string` non-template function
 
    **Before compiling**, predict in your answers which functions calls 4 and 5 from the previous exercise will now use. For call 5, also predict which function the `const char*` function will call. Then compile and run your program, show the output, and say whether your predictions were correct.
 
-   Next, add a declaration of the `std::string` version of `fn` above the definition of the `const char*` version. **Before compiling**, predict how the output of call 5 will change. Then compile and run your program and show the output.
+   Next, add a declaration of the `std::string` version above the definition of the `const char*` version. **Before compiling**, predict how the output of call 5 will change. Then compile and run your program and show the output.
 
    In your answers, explain why adding that declaration changed the output, even though the program compiled and ran without it. Also explain how the advice in section 16.3 to declare every function in an overload set before defining any of them would have prevented the problem.
 
