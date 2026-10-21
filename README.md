@@ -80,6 +80,25 @@ Record your answers in `ANSWERS.md` as you work. Include the names of everyone w
 
    Compile and run your program. In your answers, show the output it produced. It should show both C-style strings, indicating that the non-template function was used for one call and the function template was used for the others.
 
+8. In this exercise you will predict which overloaded function the compiler selects, then check your predictions. In the steps below, `NS` stands for the namespace you created in the previous exercise and `fn` for the name you gave the function template and the non-template function.
+
+   At the top of `main`, add the using-directive `using namespace NS;`. **Before compiling**, write down in your answers which function (the function template or the non-template function) you predict each of the following calls will use, and briefly explain why. Here, `obj` is one of your objects of the class type and `str` is a `std::string` variable you declare in `main`:
+
+   1. `fn(std::cout, obj);`
+   2. `NS::fn(std::cout, obj);`
+   3. `fn(std::cout, str);`
+   4. `fn(std::cout, "hello");`
+   5. `fn<ClassName>(std::cout, obj);`, where `ClassName` is the name of your class
+   6. `fn<ClassName>(std::cout, str);`
+
+   Add those calls to `main`, then compile and run your program. In your answers, show the output, and for each call say whether your prediction was correct. For any call you predicted incorrectly, explain what actually determined the choice. Think about exact matches versus conversions (including the implicit conversion your class's constructor allows), and about how the compiler chooses between a template and a non-template function that match equally well.
+
+9. Replace the using-directive `using namespace NS;` in `main` with the using-declaration `using NS::fn;`.
+
+   **Before compiling**, predict in your answers which of the six calls from the previous exercise will still compile, and which function each call that compiles will use. Then compile your program. For each call that does not compile, show the error message and comment that call out. Run the program and show its output.
+
+   In your answers, explain why the using-declaration changed the outcome compared with the using-directive, especially for call 3. Consider which names an unqualified function name finds at block scope, and which additional functions argument-dependent lookup finds based on the types of the arguments.
+
 ## Deliverables
 
 Commit and push all modified and added files, including `ANSWERS.md`, to the repo.
