@@ -97,19 +97,6 @@ Record your answers in `ANSWERS.md` as you work. Include the names of everyone w
 
    **Before compiling**, predict which version of the function each call will use (the `const T&` template, the `T*` template, or the non-template function from exercise 7) and briefly explain why. Then compile and run your program, show the output, and say which predictions were wrong and why. In particular, explain the output of call 5.
 
-9. In this exercise you will add non-template overloads for strings and see how a missing declaration can silently change which function gets called.
-
-   In the source file for your `main` function, above `main` and outside any namespace (do not declare these functions in a header file), define two non-template functions with the same name as your function template, each with a `void` return type and taking a reference to a non-const `std::ostream` as the first parameter. **Define them in this order:**
-
-   1. a function whose second parameter is a `const char*`, which inserts a short C-style string indicating that printing happened from the `const char*` non-template function, and then calls the function on a `std::string` constructed from the pointer
-   2. a function whose second parameter is a reference to a const `std::string`, which inserts the string surrounded by double quotes, along with a short C-style string indicating that printing happened from the `std::string` non-template function
-
-   **Before compiling**, predict in your answers which functions calls 4 and 5 from the previous exercise will now use. For call 5, also predict which function the `const char*` function will call. Then compile and run your program, show the output, and say whether your predictions were correct.
-
-   Next, add a declaration of the `std::string` version above the definition of the `const char*` version. **Before compiling**, predict how the output of call 5 will change. Then compile and run your program and show the output.
-
-   In your answers, explain why adding that declaration changed the output, even though the program compiled and ran without it. Also explain how the advice in section 16.3 to declare every function in an overload set before defining any of them would have prevented the problem.
-
 ## Deliverables
 
 Commit and push all modified and added files, including `ANSWERS.md`, to the repo.
