@@ -2,7 +2,7 @@
 
 ## Overloading and Templates
 
-In this studio, you will explore how overloading of template and non-template functions and operators can be managed to gain the flexibility and specificity that overloading offers while avoiding ambiguity. You will also see how type conversions and scoping affect overloading.
+In this studio, you will explore how overloading of template and non-template functions and operators can be managed to gain the flexibility and specificity that overloading offers while avoiding ambiguity. You will also see how type conversions, scoping, and the placement of declarations affect overloading. This studio supplements the assigned reading for this module (section 16.3).
 
 ## Collaboration
 
@@ -80,24 +80,36 @@ Record your answers in `ANSWERS.md` as you work. Include the names of everyone w
 
    Compile and run your program. In your answers, show the output it produced. It should show both C-style strings, indicating that the non-template function was used for one call and the function template was used for the others.
 
-8. In this exercise you will predict which overloaded function the compiler selects, then check your predictions. In the steps below, `NS` stands for the namespace you created in the previous exercise and `fn` for the name you gave the function template and the non-template function.
+8. In this exercise you will overload your function template with a second, more specialized function template, as in the `debug_rep` examples in the assigned reading for this module (section 16.3). In the steps below, `fn` stands for the name of your function template, `ClassName` for the name of your class, and `obj` for one of your objects of the class type.
 
-   At the top of `main`, add the using-directive `using namespace NS;`. **Before compiling**, write down in your answers which function (the function template or the non-template function) you predict each of the following calls will use, and briefly explain why. Here, `obj` is one of your objects of the class type and `str` is a `std::string` variable you declare in `main`:
+   In your template header file, add a declaration of a second function template named `fn` with a single type parameter `T` that has a `void` return type and takes a reference to a non-const `std::ostream` and a parameter of type `T*`. Make sure both function templates are declared in the template header file before either one is defined. In your template source file, define it so that it:
+
+   1. inserts the pointer's own value into the `std::ostream`, along with a short C-style string indicating that printing happened from the pointer template
+   2. if the pointer is not null, calls `fn` to print the object it points to; otherwise inserts a message indicating a null pointer
+
+   In `main`, declare a `const` pointer to one of your objects (of type `const ClassName*`), a null pointer of type `ClassName*`, and a `std::string` variable `str`. **Before compiling**, predict in your answers which function (the `const T&` template, the `T*` template, or the non-template function in your namespace) each of the following calls will use, and what `T` will be deduced as for each template call. Briefly explain why, using the function-matching rules from section 16.3:
 
    1. `fn(std::cout, obj);`
-   2. `NS::fn(std::cout, obj);`
-   3. `fn(std::cout, str);`
-   4. `fn(std::cout, "hello");`
-   5. `fn<ClassName>(std::cout, obj);`, where `ClassName` is the name of your class
-   6. `fn<ClassName>(std::cout, str);`
+   2. `fn(std::cout, &obj);`
+   3. `fn(std::cout, cp);`, where `cp` is your `const ClassName*`
+   4. `fn(std::cout, str);`
+   5. `fn(std::cout, "hello");`
+   6. `fn(std::cout, np);`, where `np` is your null `ClassName*`
 
-   Add those calls to `main`, then compile and run your program. In your answers, show the output, and for each call say whether your prediction was correct. For any call you predicted incorrectly, explain what actually determined the choice. Think about exact matches versus conversions (including the implicit conversion your class's constructor allows), and about how the compiler chooses between a template and a non-template function that match equally well.
+   Add those calls to `main`, then compile and run your program. In your answers, show the output, and for each call say whether your prediction was correct. For any call you predicted incorrectly, explain what actually determined the choice. In particular, explain the output of call 5: why is the pointer's value not printed as an address, and why does only one character of the string get printed after it?
 
-9. Replace the using-directive `using namespace NS;` in `main` with the using-declaration `using NS::fn;`.
+9. In this exercise you will add non-template overloads for strings and see how a missing declaration can silently change which function gets called.
 
-   **Before compiling**, predict in your answers which of the six calls from the previous exercise will still compile, and which function each call that compiles will use. Then compile your program. For each call that does not compile, show the error message and comment that call out. Run the program and show its output.
+   In the source file for your `main` function, above `main` and outside any namespace (do not declare these functions in a header file), define two non-template functions named `fn`, each with a `void` return type and taking a reference to a non-const `std::ostream` as the first parameter. **Define them in this order:**
 
-   In your answers, explain why the using-declaration changed the outcome compared with the using-directive, especially for call 3. Consider which names an unqualified function name finds at block scope, and which additional functions argument-dependent lookup finds based on the types of the arguments.
+   1. a function whose second parameter is a `const char*`, which inserts a short C-style string indicating that printing happened from the `const char*` non-template function, and then calls `fn` on a `std::string` constructed from the pointer
+   2. a function whose second parameter is a reference to a const `std::string`, which inserts the string surrounded by double quotes, along with a short C-style string indicating that printing happened from the `std::string` non-template function
+
+   **Before compiling**, predict in your answers which functions calls 4 and 5 from the previous exercise will now use. For call 5, also predict which function the `const char*` function will call. Then compile and run your program, show the output, and say whether your predictions were correct.
+
+   Next, add a declaration of the `std::string` version of `fn` above the definition of the `const char*` version. **Before compiling**, predict how the output of call 5 will change. Then compile and run your program and show the output.
+
+   In your answers, explain why adding that declaration changed the output, even though the program compiled and ran without it. Also explain how the advice in section 16.3 to declare every function in an overload set before defining any of them would have prevented the problem.
 
 ## Deliverables
 
