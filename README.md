@@ -2,7 +2,7 @@
 
 ## Overloading and Templates
 
-In this studio, you will explore how overloading of template and non-template functions and operators can be managed to gain the flexibility and specificity that overloading offers while avoiding ambiguity. You will also see how type conversions, scoping, and the placement of declarations affect overloading. This studio supplements the assigned reading for this module (section 16.3).
+In this studio, you will explore how overloading of template and non-template functions and operators can be managed to gain the flexibility and specificity that overloading offers while avoiding ambiguity. You will also see how type conversions and the placement of declarations affect overloading. This studio supplements the assigned reading for this module (section 16.3).
 
 ## Collaboration
 
@@ -76,9 +76,11 @@ Record your answers in `ANSWERS.md` as you work. Include the names of everyone w
    3. takes a reference to a non-const `std::ostream` and a reference to a const object of your class type
    4. inserts the object into the `std::ostream`, and also inserts a short C-style string to indicate that printing happened from the non-template function
 
-   Put that declaration and definition into a new namespace. In `main`, prepend the namespace name and the scope resolution operator (`::`) to one of the calls that prints an object of the class type.
+   **Before compiling**, predict in your answers which function (the function template or the non-template function) each call in `main` that prints an object of the class type will use. Then compile and run your program, and show the output it produced.
 
-   Compile and run your program. In your answers, show the output it produced. It should show both C-style strings, indicating that the non-template function was used for one call and the function template was used for the others.
+   In your answers, explain why the non-template function was called, even though the function template could also be instantiated to match those calls exactly.
+
+   Finally, change one of those calls so that it provides an explicit template argument (for example, `fn<ClassName>(std::cout, obj)`, where `fn` is the name of your function template and `ClassName` is the name of your class). Compile and run your program, show the output, and explain why that call now uses the function template.
 
 8. In this exercise you will overload your function template with a second, more specialized function template, as in the `debug_rep` examples in the assigned reading for this module (section 16.3). In the steps below, `fn` stands for the name of your function template, `ClassName` for the name of your class, and `obj` for one of your objects of the class type.
 
@@ -87,7 +89,7 @@ Record your answers in `ANSWERS.md` as you work. Include the names of everyone w
    1. inserts the pointer's own value into the `std::ostream`, along with a short C-style string indicating that printing happened from the pointer template
    2. if the pointer is not null, calls `fn` to print the object it points to; otherwise inserts a message indicating a null pointer
 
-   In `main`, declare a `const` pointer to one of your objects (of type `const ClassName*`), a null pointer of type `ClassName*`, and a `std::string` variable `str`. **Before compiling**, predict in your answers which function (the `const T&` template, the `T*` template, or the non-template function in your namespace) each of the following calls will use, and what `T` will be deduced as for each template call. Briefly explain why, using the function-matching rules from section 16.3:
+   In `main`, declare a `const` pointer to one of your objects (of type `const ClassName*`), a null pointer of type `ClassName*`, and a `std::string` variable `str`. **Before compiling**, predict in your answers which function (the `const T&` template, the `T*` template, or your non-template function from the previous exercise) each of the following calls will use, and what `T` will be deduced as for each template call. For calls that use the `T*` template, also predict which function prints the object that the pointer points to. Briefly explain why, using the function-matching rules from section 16.3:
 
    1. `fn(std::cout, obj);`
    2. `fn(std::cout, &obj);`
