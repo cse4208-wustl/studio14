@@ -104,11 +104,9 @@ Record your answers in `ANSWERS.md` as you work. Include the names of everyone w
    1. a function whose second parameter is a `const char*`, which inserts a short C-style string indicating that printing happened from the `const char*` non-template function, and then **calls the same function on a `std::string` constructed from the pointer**
    2. a function whose second parameter is a reference to a const `std::string`, which inserts the string into the `std::ostream`, along with a short C-style string indicating that printing happened from the `std::string` non-template function
 
-   Compile and run the code. In your answers, paste the output from the call to your function on the string literal "hello" (item 5 from the previous step). Explain why inside that non-template call, a call to the template `const T& ` version of the function is made (instead of the call to the non-template `const string&`).
+   Compile and run your program. In your answers, show the output of call 5 from exercise 8 (the call with the string literal `"hello"`). Explain why the call inside the `const char*` function uses the `const T&` function template instead of the `std::string` non-template function.
 
-   Next, add a declaration of the `std::string` version of the function above the definition of the `const char*` version. **Before compiling**, predict how the output of call 5 will change. Then compile and run your program and show the output.
-
-   In your answers, explain why adding that declaration changed the output, even though the program compiled and ran without it. Also explain how the advice in section 16.3 to declare every function in an overload set before defining any of them would have prevented the problem.
+   Next, add a declaration of the `std::string` version of the function above the definition of the `const char*` version, compile, and run the code. In your answers, show the output.
 
 ## Deliverables
 
